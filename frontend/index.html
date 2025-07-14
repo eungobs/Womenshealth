@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day Clinic-Women's Health Dashboard</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Link to Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    &#9792; <!-- Unicode Female Sign -->
+                </div>
+                <span class="logo-text">Women's Health</span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-item" onclick="showSection('overview')">
+                    <span class="nav-icon">🏠</span>
+                    Overview
+                </a>
+                <a href="#" class="nav-item active" onclick="showSection('doctors')">
+                    <span class="nav-icon">👩‍⚕️</span>
+                    Doctors
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('schedule')">
+                    <span class="nav-icon">📅</span>
+                    Schedule
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('message')">
+                    <span class="nav-icon">💬</span>
+                    Message
+                </a>
+            </nav>
+        </header>
+        <div class="main-container">
+            <div id="doctors-section" class="content-section active">
+                <div class="main-content">
+                    <aside class="doctors-sidebar">
+                        <div class="sidebar-header">
+                            <h2>Doctors</h2>
+                            <button class="search-btn" onclick="toggleSearch()">🔍</button>
+                        </div>
+                        <div class="search-container" id="searchContainer" style="display: none;">
+                            <input type="text" id="doctorSearch" placeholder="Search doctors..." onkeyup="searchDoctors()">
+                        </div>
+                        <div class="doctors-list" id="doctorsList">
+                            <div class="loading">Loading doctors...</div>
+                        </div>
+                    </aside>
+                    <main class="dashboard-main">
+                        <section class="diagnosis-section">
+                            <h2>Doctor Client Statistics</h2>
+                            <div class="blood-pressure-card">
+                                <div class="card-header">
+                                    <h3>Clients per Doctor</h3>
+                                    <select class="time-filter" onchange="updateDoctorsChart(this.value)">
+                                        <option value="March 2025">March 2025</option>
+                                        <option value="February 2025">February 2025</option>
+                                        <option value="January 2025">January 2025</option>
+                                        <option value="December 2024">December 2024</option>
+                                        <option value="November 2024">November 2024</option>
+                                        <option value="October 2024">October 2024</option>
+                                        <option value="September 2024">September 2024</option>
+                                        <option value="August 2024">August 2024</option>
+                                        <option value="July 2024">July 2024</option>
+                                        <option value="June 2024">June 2024</option>
+                                        <option value="May 2024">May 2024</option>
+                                        <option value="April 2024">April 2024</option>
+                                        <option value="March 2024">March 2024</option>
+                                        <option value="February 2024">February 2024</option>
+                                        <option value="January 2024">January 2024</option>
+                                        <option value="December 2023">December 2023</option>
+                                        <option value="November 2023">November 2023</option>
+                                        <option value="October 2023">October 2023</option>
+                                    </select>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="doctorsClientsChart"></canvas>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                    <aside class="doctor-details">
+                        <div class="doctor-profile" id="doctorProfile">
+                            <div class="loading">Loading doctor details...</div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+            <div id="overview-section" class="content-section">
+                <div class="overview-content">
+                    <h1>Overview Dashboard</h1>
+                    <div class="overview-stats">
+                        <div class="stat-card">
+                            <h3 id="totalPatientsHelpedTitle">Total Patients Helped by All Doctors</h3>
+                            <span class="stat-number" id="totalPatientsHelpedValue">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Appointments Today</h3>
+                            <span class="stat-number">23</span>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Critical Cases</h3>
+                            <span class="stat-number">5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="schedule-section" class="content-section">
+                <div class="schedule-content">
+                    <h1>Schedule & Calendar</h1>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button onclick="previousMonth()" class="nav-btn">◀</button>
+                            <h2 id="currentMonth">December 2024</h2>
+                            <button onclick="nextMonth()" class="nav-btn">▶</button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="message-section" class="content-section">
+                <div class="message-content">
+                    <h1>Messages</h1>
+                    <div class="message-list">
+                        <div class="message-item unread">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face" alt="Jessica Taylor" class="message-avatar">
+                            <div class="message-info">
+                                <h4>Jessica Taylor</h4>
+                                <p>Thank you for the consultation yesterday...</p>
+                                <span class="message-time">2 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="message-item">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="Ryan Johnson" class="message-avatar">
+                            <div class="message-info">
+                                <h4>Ryan Johnson</h4>
+                                <p>Can we reschedule my appointment?</p>
+                                <span class="message-time">1 day ago</span>
+                            </div>
+                        </div>
+                        <div class="message-item">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" alt="Emily Williams" class="message-avatar">
+                            <div class="message-info">
+                                <h4>Emily Williams</h4>
+                                <p>Lab results inquiry</p>
+                                <span class="message-time">2 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Modal -->
+        <div id="bookingModal" class="modal-overlay">
+            <div class="modal-content">
+                <button class="modal-close-btn" onclick="closeBookingModal()">×</button>
+                <h2>Book Appointment</h2>
+                <form id="bookingForm">
+                    <div class="booking-form-group">
+                        <label for="bookingDoctor">Doctor</label>
+                        <select id="bookingDoctor" name="doctor" required>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="booking-form-group">
+                        <label for="bookingDate">Date</label>
+                        <input type="date" id="bookingDate" name="date" required>
+                    </div>
+                    <div class="booking-form-group">
+                        <label for="patientName">Your Name</label>
+                        <input type="text" id="patientName" name="patientName" required placeholder="e.g., Jane Doe">
+                    </div>
+                    <div class="booking-form-group">
+                        <label for="patientContact">Your Email/Phone</label>
+                        <input type="text" id="patientContact" name="patientContact" required placeholder="e.g., jane.doe@example.com or 0712345678">
+                    </div>
+                    <div class="booking-form-group">
+                        <label for="reason">Reason for Appointment</label>
+                        <textarea id="reason" name="reason" rows="4" placeholder="Briefly describe your reason for booking..."></textarea>
+                    </div>
+                    <div class="booking-form-actions">
+                        <button type="button" class="cancel-btn" onclick="closeBookingModal()">Cancel</button>
+                        <button type="submit" class="submit-btn">Book Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Doctor Details Modal -->
+        <div id="doctorDetailsModal" class="modal-overlay">
+            <div class="modal-content doctor-details-modal-content">
+                <button class="modal-close-btn" onclick="closeDoctorDetailsModal()">×</button>
+                <h2>Doctor Details</h2>
+                <div id="doctorDetailsContent" class="doctor-profile-full">
+                    <!-- Doctor details will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Location Details Modal -->
+        <div id="locationDetailsModal" class="modal-overlay">
+            <div class="modal-content location-details-modal-content">
+                <button class="modal-close-btn" onclick="closeLocationDetailsModal()">×</button>
+                <h2>Exact Location</h2>
+                <p id="exactLocationText"></p>
+            </div>
+        </div>
+
+    </div>
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>

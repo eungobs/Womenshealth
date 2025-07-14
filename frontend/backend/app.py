@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app) # Enable CORS for all routes (important for local development)
+CORS(app) # Enable CORS for all routes (important for local development and Render)
 
 @app.route('/submit-booking', methods=['POST'])
 def submit_booking():
@@ -37,5 +37,5 @@ def submit_booking():
 
 if __name__ == '__main__':
     # This runs the Flask development server locally.
-    # Vercel will handle running it as a serverless function in production.
+    # Render will use the Procfile to run your application in production.
     app.run(debug=True)
