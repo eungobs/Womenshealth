@@ -14,7 +14,12 @@ def submit_booking():
         patient_contact = data.get('patientContact')
         reason = data.get('reason')
 
-        
+        # --- This is where you'd add your actual Python backend logic ---
+        # For example:
+        # 1. Save to a database (e.g., using SQLAlchemy, psycopg2 for PostgreSQL)
+        # 2. Send an email (e.g., using smtplib)
+        # 3. Perform more complex validation or business logic
+
         print(f"Received new booking:")
         print(f"  Doctor: {doctor}")
         print(f"  Date: {date}")
